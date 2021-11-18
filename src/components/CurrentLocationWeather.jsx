@@ -1,12 +1,12 @@
-import { getCityWeather } from "../services/requests";
+import { getCurrentLocationWeather } from "../services/requests";
 import WeatherDetails from "./WeatherDetails";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import useGeoLocation from "../services/useGeoLocation";
 
-const Weather = () => {
-  const { city } = useParams();
+const CurrentLocationWeather = () => {
+  const { coordinates } = useGeoLocation();
   const [requestStatus, setRequestStatus] = useState(true);
   const [view, setView] = useState(true);
   const [cityName, setCityName] = useState("");
@@ -19,28 +19,26 @@ const Weather = () => {
   const [wind, setWind] = useState("");
   const [humidity, setHumidity] = useState("");
 
-  useEffect(() => {
-    if (city) {
-      const func = async () => {
-        try {
-          const res = await getCityWeather(city); 
-          setRequestStatus(true);
-          setCityName(res.data.name);
-          setCountry(res.data.sys.country);
-          setTemperature(res.data.main.temp);
-          setMax(res.data.main.temp_max);
-          setMin(res.data.main.temp_min);
-          setIcon(res.data.weather[0].icon);
-          setDescription(res.data.weather[0].description);
-          setWind(res.data.wind.speed);
-          setHumidity(res.data.main.humidity)
-        } catch(error) {
-          setRequestStatus(false)
-        }
-      } 
-      func()
-    }
-  }, [city]);
+  useEffect(() => { 
+    const func = async () => {
+      try {
+         const res = await getCurrentLocationWeather(coordinates.lat, coordinates.lon); 
+        setRequestStatus(true);
+        setCityName(res.data.name);
+        setCountry(res.data.sys.country);
+        setTemperature(res.data.main.temp);
+        setMax(res.data.main.temp_max);
+        setMin(res.data.main.temp_min);
+        setIcon(res.data.weather[0].icon);
+        setDescription(res.data.weather[0].description);
+        setWind(res.data.wind.speed);
+        setHumidity(res.data.main.humidity)
+      } catch(error) {
+        setRequestStatus(false)
+      }
+    } 
+    func();
+  }, [coordinates]);
 
   const handleChangeView = () => {
     setView(!view)
@@ -93,7 +91,7 @@ const Weather = () => {
           </>)
         : (<>
             <section>
-              <p>Please enter a valid name.</p>
+              <p>You should allow the acces to the app in order to find your location.</p>
             </section>  
             <section className="options">
               <Link to="/" className="link">
@@ -106,4 +104,4 @@ const Weather = () => {
   )
 };
 
-export default Weather
+export default CurrentLocationWeather

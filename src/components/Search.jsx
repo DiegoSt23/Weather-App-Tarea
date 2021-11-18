@@ -1,9 +1,18 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router";
 
 const Search = () => {
   const [value, setValue] = useState("");
+  const navigate = useNavigate();
+
+  const handleOpenWeatherComponent = (e) => {
+    e.preventDefault();
+    if (value) {
+      navigate(`weather/${value}`)
+    }
+  };
 
   return (
     <motion.div 
@@ -18,9 +27,11 @@ const Search = () => {
           value={value}
           onChange={e => setValue(e.target.value)}
         />
-        <Link to={`weather/${value}`}>
-          <button>GO</button>
-        </Link>                          
+        <button onClick={handleOpenWeatherComponent}>GO</button>
+        <h3>OR</h3>
+        <Link to="weather/current">
+          <button>YOUR CURRENT LOCATION</button>
+        </Link>                                  
       </form>
     </motion.div>
   )

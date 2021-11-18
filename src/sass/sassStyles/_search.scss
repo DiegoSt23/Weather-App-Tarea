@@ -30,7 +30,23 @@
       color: gray;
       font-weight: bold;
       cursor: pointer;
-
+    }
+    h3 {
+      margin: 20px 0px;
     }
   }    
+};
+
+@media screen and (max-width: 992px) {
+  .search-container {
+    width: 80%;
+    height: auto;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .search-container {
+    width: 100%;
+    height: auto;
+  }
 }
