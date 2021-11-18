@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import WeatherDetails from "./WeatherDetails";
+import { motion } from "framer-motion";
 
 const Weather = () => {
   const { city } = useParams();
@@ -47,7 +48,12 @@ const Weather = () => {
   };
 
   return (
-    <div className="weather-container">
+    <motion.div 
+      className="weather-container"
+      initial={{x: 100, opacity: 0}}
+      animate={{x: 0, opacity: 1}}
+      transition={{type: "just", duration: 1}}
+    >
       {requestStatus
         ? (<>
             <section className="header">
@@ -56,9 +62,13 @@ const Weather = () => {
             </section>
             <section className="info-container">
               {view
-                ? (<div>
+                ? (<motion.div
+                    initial={{x: 50, opacity: 0}}
+                    animate={{x: 0, opacity: 1}}
+                    transition={{type: "just", duration: 0.5}}
+                  >
                     <h2>{temperature}°C</h2>
-                  </div>)
+                  </motion.div>)
                 : (<>
                     <WeatherDetails
                       temperature={temperature}
@@ -93,7 +103,7 @@ const Weather = () => {
             </section>
           </>)     
       }           
-    </div>
+    </motion.div>
   )
 };
 

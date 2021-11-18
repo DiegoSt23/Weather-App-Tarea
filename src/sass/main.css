@@ -162,6 +162,7 @@
           justify-content: center;
   text-align: center;
   color: white;
+  overflow: hidden;
 }
 
 .main-container h1 {

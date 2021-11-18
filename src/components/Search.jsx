@@ -1,11 +1,17 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const Search = () => {
   const [value, setValue] = useState("");
 
   return (
-    <div className="search-container">
+    <motion.div 
+      className="search-container"
+      initial={{x: -100, opacity: 0}}
+      animate={{x: 0, opacity: 1}}
+      transition={{type: "just", duration: 1}}
+    >
       <form>
         <input 
           placeholder="Search for any city in the world"
@@ -16,7 +22,7 @@ const Search = () => {
           <button>GO</button>
         </Link>                          
       </form>
-    </div>
+    </motion.div>
   )
 };
 

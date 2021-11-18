@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 
 const WeatherDetails = ({temperature, maxTemp, minTemp, description, icon, wind, humidity}) => {
   const [ weatherColor, setWeatherColor] = useState("");
@@ -41,7 +42,13 @@ const WeatherDetails = ({temperature, maxTemp, minTemp, description, icon, wind,
   }, [description]);
   
   return (
-    <div className="info" style={{backgroundColor: weatherColor}}>
+    <motion.div 
+      className="info" 
+      style={{backgroundColor: weatherColor}}
+      initial={{x: -50, opacity: 0}}
+      animate={{x: 0, opacity: 1}}
+      transition={{type: "just", duration: 0.5}}
+    >
       <section className="details-container">
         <img src={`https://openweathermap.org/img/wn/${icon}@2x.png`} alt="weather-icon"/>
         <p>{temperature}°C</p>
@@ -53,7 +60,7 @@ const WeatherDetails = ({temperature, maxTemp, minTemp, description, icon, wind,
         <p>Wind: {wind}km/h</p>
         <p>Humidity: {humidity}%</p>
       </section>
-    </div>
+    </motion.div>
   )
 };
 
